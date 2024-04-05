@@ -1,4 +1,26 @@
 
+.elevate {
+    
+    box-shadow: 0 0 4px rgba(126, 125, 125, 0.945); /* Initial box shadow */
+    padding: 20px;
+    margin-top: 20px;
+    border-color: transparent;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for smooth effect */
+}
+.elevate-text {
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+.elevate-text:hover {
+    transform: scale(1.03);
+}
+
+.elevate:hover {
+    box-shadow: 0 0 8px rgba(156, 155, 155, 0.945); /* Change box shadow on hover */
+    transform: translate3d(4px, 4px, 4px); /* Elevate the div on hover */
+}
+
 
 .fullscreen-bg-video {
     position: absolute;

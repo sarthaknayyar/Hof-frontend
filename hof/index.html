@@ -10,15 +10,47 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Style for the mouse trail */
+        .mouse-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .trail {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
     <script src="assets/js/jquery-3.4.1.js"></script>
     <script>
         $(document).ready(function () {
-            // When clicking on the Scanner button
+
             $('#scanner-btn').on('click', function () {
-                // Scroll to the Scanner section
+
                 $('html, body').animate({
                     scrollTop: $('#about').offset().top
                 }, 'slow');
+            });
+
+            // Mouse trail functionality
+            $(document).mousemove(function (event) {
+                var mouseX = event.pageX;
+                var mouseY = event.pageY;
+                var trail = $('<div class="trail"></div>').css({
+                    top: mouseY + 'px',
+                    left: mouseX + 'px'
+                });
+                $('body').append(trail);
+
+                // Remove trail after a short delay
+                setTimeout(function () {
+                    trail.remove();
+                }, 200);
             });
         });
     </script>
@@ -34,13 +66,13 @@
     </div>
 
     <nav class="navbar navbar-light navbar-expand-md navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container"><a class="navbar-brand js-scroll-trigger" href="#">Home</a><button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+        <div class="container"><a class="navbar-brand js-scroll-trigger  elevate-text" href="#">Home</a><button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
                 value="Menu"><i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a id="scanner-btn" class="nav-link active js-scroll-trigger" href="#">Scanner</a></li>
-                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#download">Our Mission</a></li>
-                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#contact">How To Use</a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger elevate-text" href="#download">Our Mission</a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger elevate-text" href="#contact">How To Use</a></li>
                 </ul>
             </div>
         </div>
@@ -65,8 +97,8 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <h2>Scanner</h2>
-                    <div class = "videoContainer ">
-                        <video class = "border border-success col-lg-10" autoplay="true" id="videoElement"></video>
+                    <div class="videoContainer">
+                        <video class="border border-success col-lg-10" autoplay="true" id="videoElement"></video>
                     </div>
                     <script>
                         let video = document.querySelector("#videoElement");
@@ -77,15 +109,23 @@
                             .catch(function (error) {
                                 console.log("Something went wrong!");
                             });
-                    </script>
 
+                        // Function to invert the video horizontally
+                        function invertCamera() {
+                            video.style.transform = "scaleX(-1)";
+                        }
+
+                        // Call the function to invert the camera
+                        invertCamera();
+                    </script>
                 </div>
+
             </div>
         </div>
     </section>
     <section id="download" class="download-section content-section text-center" style="background-image:url('assets/img/downloads-bg.jpg');">
         <div class="container">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-8 mx-auto elevate ">
                 <h1>Our Mission</h1>
                 <p>Our mission is to revolutionize waste management in India by providing innovative and sustainable solutions to effectively manage and reduce municipal solid waste. We are committed to creating cleaner, healthier, and more sustainable urban environments by leveraging technology, community engagement, and environmental stewardship. Through our comprehensive waste management services, we aim to minimize landfilling, maximize recycling and resource recovery, and mitigate environmental pollution. Our goal is to empower municipalities, businesses, and communities to adopt eco-friendly practices, reduce waste generation, and contribute to a circular economy. Together, we strive to build a greener and more resilient future for generations to come.</p>
             </div>
@@ -93,11 +133,11 @@
     </section>
     <section id="contact" class="content-section ">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
+        <div class="row elevate" >
+                <div class="col-lg-8 mx-auto text-center ">
                     <h2>How To Use</h2>
                 </div>
-                <div class="col-lg-8 mx-auto d-flex justify-content-center">
+                <div class="col-lg-8 mx-auto d-flex justify-content-center ">
                     <ol style="padding-left: 0; margin-top: 20px;">
                         <li style="margin-bottom: 1.2em;">Click on Scanner button in navbar section.</li>
                         <li style="margin-bottom: 1.2em;">Bring the object in front of the camera.</li>
