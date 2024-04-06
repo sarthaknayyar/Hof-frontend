@@ -99,6 +99,10 @@
 
             </div>
         </div>
+
+
+
+        
     </header>
     <section id="about" class="content-section text-center">
         <div class="container">
@@ -107,7 +111,7 @@
                     <h2>Scanner</h2>
                     <div class="videoContainer mx-auto">
                         <video class="border border-success col-lg-10 mx-auto" autoplay="true" id="videoElement"></video>
-                        <canvas id="frameCanvas" style="display: none;"></canvas> <!-- Hidden canvas to capture the frame -->
+                        <canvas id="frameCanvas" style="display: none;"></canvas> 
                         <button onclick="captureFrameAndToggleCamera()" id="captureBtn">Capture Frame</button>
                         <a id="downloadBtn" style="display: none;">Download Captured Image</a>
                     </div>
@@ -207,7 +211,16 @@
                             .catch(function (error) {
                                 console.log("Something went wrong!");
                             });
+                            fetch('https://api-inference.huggingface.co/models/yangy50/garbage-classification')
+                            .then((response) => {
+                                return response.json()
+                            })
+                            .then((data) => {
+                                console.log(data);
+                            })
+                            .catch((error) => console.log(error));
                     </script>
+
                 </div>
                 
                 
@@ -248,6 +261,7 @@
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    
     <script src="assets/js/grayscale.js"></script>
 
 
