@@ -66,8 +66,13 @@
     </div>
 
     <nav class="navbar navbar-light navbar-expand-md navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container"><a class="navbar-brand js-scroll-trigger  elevate-text" href="#">Home</a><button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
-                value="Menu"><i class="fa fa-bars"></i></button>
+        <div class="container">
+            <div class="image"><img src="assets/images/garbage_management__1_-removebg-preview.png" height="80em" alt="Logo" class="logo"> </div>
+            <a class="navbar-brand js-scroll-trigger elevate-text" href="#" style="margin-left: 20px;">
+                Home
+            </a>
+            <button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                    value="Menu"><i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a id="scanner-btn" class="nav-link active js-scroll-trigger" href="#">Scanner</a></li>
@@ -76,7 +81,10 @@
                 </ul>
             </div>
         </div>
+        
+        </div>
     </nav>
+    
     <header class="masthead">
 
         <div class="intro-body">
@@ -97,28 +105,114 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <h2>Scanner</h2>
-                    <div class="videoContainer">
-                        <video class="border border-success col-lg-10" autoplay="true" id="videoElement"></video>
+                    <div class="videoContainer mx-auto">
+                        <video class="border border-success col-lg-10 mx-auto" autoplay="true" id="videoElement"></video>
+                        <canvas id="frameCanvas" style="display: none;"></canvas> <!-- Hidden canvas to capture the frame -->
+                        <button onclick="captureFrameAndToggleCamera()" id="captureBtn">Capture Frame</button>
+                        <a id="downloadBtn" style="display: none;">Download Captured Image</a>
                     </div>
                     <script>
                         let video = document.querySelector("#videoElement");
+                        let frameCanvas = document.querySelector("#frameCanvas");
+                        let captureBtn = document.querySelector("#captureBtn");
+                        let downloadBtn = document.querySelector("#downloadBtn");
+                        let isCameraOpen = true;
+                        function invertCamera() {
+                            video.style.transform = "scaleX(-1)";
+                        }
+                
+                        // Function to capture a frame and toggle camera state
+                        invertCamera();
+                        function captureFrameAndToggleCamera() {
+                            if (isCameraOpen) {
+                                // Capture the frame
+                                let frameDataUrl = captureFrame();
+                                
+                
+                                // Show download button
+                                downloadBtn.href = frameDataUrl;
+                                downloadBtn.download = "captured_frame.png";
+                                downloadBtn.style.display = "inline";
+
+                                function closeCamera() {
+                                    // Stop the video stream
+                                    let stream = video.srcObject;
+                                    let tracks = stream.getTracks();
+                                    tracks.forEach(track => track.stop());
+
+                        
+                                    // Hide the video
+                                    video.style.display = "none";
+                                }
+                                closeCamera();
+                
+                                // Hide the video
+                                video.style.display = "none";
+                                isCameraOpen = false;
+                
+                                // Change button text and behavior
+                                captureBtn.textContent = "Retake Frame";
+                                captureBtn.onclick = retakeFrameAndToggleCamera;
+                            }
+                        }
+                
+                        // Function to capture a frame from the video
+                        function captureFrame() {
+                            // Set canvas dimensions to match video dimensions
+                            frameCanvas.width = video.videoWidth;
+                            frameCanvas.height = video.videoHeight;
+                
+                            // Draw the current frame from the video onto the canvas
+                            let context = frameCanvas.getContext('2d');
+                            context.drawImage(video, 0, 0, frameCanvas.width, frameCanvas.height);
+                
+                            // Return the data URL of the captured frame
+                            return frameCanvas.toDataURL();
+                        }
+                
+                        // Function to retake frame and toggle camera state
+                        function retakeFrameAndToggleCamera() {
+                            
+                    
+                            // Start the camera when the page loads
+                            navigator.mediaDevices.getUserMedia({ video: true })
+                                .then(function (stream) {
+                                    video.srcObject = stream;
+                                })
+                                .catch(function (error) {
+                                    console.log("Something went wrong!");
+                                });
+                            // Show the video
+                            video.style.display = "block";
+                            isCameraOpen = true;
+                
+                            // Hide download button
+                            downloadBtn.style.display = "none";
+                
+                            // Change button text and behavior
+                            captureBtn.textContent = "Capture Frame";
+                            captureBtn.onclick = captureFrameAndToggleCamera;
+                        }
+                
+                        // Function to invert the video horizontally
+                        
+                        // Start the camera when the page loads
                         navigator.mediaDevices.getUserMedia({ video: true })
-                            .then(function (stream) {
+                        .then(function (stream) {
+                            function invertCamera() {
+                                video.style.transform = "scaleX(-1)";
+                            }
                                 video.srcObject = stream;
                             })
                             .catch(function (error) {
                                 console.log("Something went wrong!");
                             });
-
-                        // Function to invert the video horizontally
-                        function invertCamera() {
-                            video.style.transform = "scaleX(-1)";
-                        }
-
-                        // Call the function to invert the camera
-                        invertCamera();
                     </script>
                 </div>
+                
+                
+                
+                
 
             </div>
         </div>

@@ -1,4 +1,6 @@
-
+button{
+    margin-top: 1.5em;
+}
 .elevate {
     
     box-shadow: 0 0 4px rgba(126, 125, 125, 0.945); /* Initial box shadow */
